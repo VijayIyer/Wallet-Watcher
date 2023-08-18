@@ -8,7 +8,11 @@ const ExpenseSchema = new Schema({
     type: Number,
     required: true,
   },
+  created_at: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
-const ExpenseModel = model("Expense", ExpenseSchema);
+const ExpenseModel = models.Expense || model("Expense", ExpenseSchema);
 export { ExpenseModel };
