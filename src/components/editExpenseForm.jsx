@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from "react";
-export default function Modal({
-  showModal,
-  setShowModal,
-  onSave,
-  allowedCurrencies,
-}) {
-  const [title, setTitle] = useState(null);
-  const [amount, setAmount] = useState(null);
-  const [currency, setCurrency] = useState(null);
-  const [transactionDate, setTransactionDate] = useState(null);
+
+export default function Modal({ data, showModal, setShowModal, onSave }) {
+  const [title, setTitle] = useState("");
+  const [amount, setAmount] = useState(0);
+  useEffect(() => {
+    setTitle(data.title);
+    setAmount(data.amount);
+  }, [data]);
   return (
     <>
       {showModal ? (
@@ -24,8 +22,8 @@ export default function Modal({
                     className='p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none'
                     onClick={() => setShowModal(false)}
                   >
-                    <span className='bg-black text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none'>
-                      X
+                    <span className='bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none'>
+                      ×
                     </span>
                   </button>
                 </div>
@@ -38,9 +36,6 @@ export default function Modal({
                         type='text'
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
-                        style={{
-                          paddingLeft: "10px",
-                        }}
                       />
                     </div>
                     <div className='flex gap-3'>
@@ -49,41 +44,6 @@ export default function Modal({
                         type='number'
                         value={amount}
                         onChange={(e) => setAmount(e.target.value)}
-                        style={{
-                          paddingLeft: "10px",
-                        }}
-                      />
-                    </div>
-
-                    <div className='flex gap-3'>
-                      <label>Currency :</label>
-                      <select
-                        name='selectCurrency'
-                        id='selectCurrency'
-                        value={currency ?? ""}
-                        onChange={(e) => {
-                          console.log(e.target.value);
-                          setCurrency(e.target.value);
-                        }}
-                      >
-                        {allowedCurrencies.map((currency) => {
-                          return (
-                            <option
-                              key={currency.symbol}
-                              value={currency.symbol}
-                            >
-                              {currency.symbol}
-                            </option>
-                          );
-                        })}
-                      </select>
-                    </div>
-                    <div className='flex gap-3'>
-                      <label>Transaction Date :</label>
-                      <input
-                        type='date'
-                        onChange={(e) => setTransactionDate(e.target.value)}
-                        value={transactionDate ?? ""}
                       />
                     </div>
                   </div>
@@ -98,20 +58,14 @@ export default function Modal({
                     Close
                   </button>
                   <button
-                    disabled={!title || !amount}
                     className='bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150'
                     type='button'
-                    onClick={(e) => {
-                      e.preventDefault();
+                    onClick={() => {
                       setShowModal(false);
-                      onSave({ title, amount, currency, transactionDate });
-                      setTitle(null);
-                      setAmount(null);
-                      setCurrency(null);
-                      setTransactionDate(null);
+                      onSave(data.id, { title, amount });
                     }}
                   >
-                    Add Expense
+                    Save Changes
                   </button>
                 </div>
               </div>

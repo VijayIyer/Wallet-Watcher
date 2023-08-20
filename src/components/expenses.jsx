@@ -1,18 +1,19 @@
 import React from "react";
 import Expense from "./expense";
 
-const expenses = ({ expenses, deleteExpense, editExpense }) => {
+const expenses = ({ expenses, onDeleteExpense, onEditExpense }) => {
   return (
     <ul>
       {expenses.map((expense, index) => {
         return (
-          <Expense
-            key={expense.id}
-            expense={expense}
-            index={index}
-            deleteExpense={deleteExpense}
-            editExpense={editExpense}
-          />
+          <li key={expense.id}>
+            <Expense
+              expense={expense}
+              index={index}
+              onDeleteExpense={onDeleteExpense}
+              onEditExpense={onEditExpense}
+            />
+          </li>
         );
       })}
     </ul>

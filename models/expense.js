@@ -12,6 +12,17 @@ const ExpenseSchema = new Schema({
     type: Date,
     default: Date.now,
   },
+  transaction_date: {
+    type: Date,
+  },
+  currency: {
+    type: String,
+    default: "USD",
+  },
+  details: {
+    type: String,
+    maxLength: 200,
+  },
 });
 
 const ExpenseModel = models.Expense || model("Expense", ExpenseSchema);
